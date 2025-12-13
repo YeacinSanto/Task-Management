@@ -9,8 +9,14 @@
     <link rel="stylesheet" href="{% static "css/style.css" %}">
 </head>
 <body>
-    <p class="lal-bg">Test page</p>
-
-    <img src="{% static "image/images.jpeg" %}" alt="">
+    {% with 0 as count %}
+    {% for name in names %}
+        {% if not name == "Ahmed" %}
+            <p>{{name}}</p>
+        {% endif %}
+        {{count|add:"1"}}
+    {% endfor %}
+    {{count}}
+{% endwith %}
 </body>
 </html>

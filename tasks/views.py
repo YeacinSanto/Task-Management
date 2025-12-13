@@ -10,3 +10,6 @@ def manager_dashboard(request):
 
 def user_dashboard(request):
     return render(request, "dashboard/user_dashboard.html")
+
+def test(request):
+    return render(request, "test.html")

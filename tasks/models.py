@@ -1,8 +1,22 @@
 from django.db import models
 
 # Create your models here.
+
+class Employee(models.Model):
+    name = models.CharField(max_length=100)
+    email = models.EmailField(unique=True)
+    
+
+class Project(models.Model):
+    name = models.CharField(max_length=100)
+    start_date = models.DateField()
+
 class Task(models.Model):
+    Project = models.ForeignKey(Project, on_delete=models.CASCADE, default=1)
+    assigned_to = models.ManyToManyField(Employee, related_name="Tasks")
+    
     title = models.CharField(max_length=250)
+    
     description =models.TextField()
     due_date = models.DateField()
     is_completed = models.BooleanField(default=False)
@@ -20,9 +34,12 @@ class TaskDetail(models.Model):
         (LOW,"Low"),
     )
     
-    task = models.OneToOneField(Task, on_delete=models.CASCADE)
+    task = models.OneToOneField(
+        Task, 
+        on_delete=models.CASCADE,
+        related_name = "Details"
+        )
     
     assigned_to = models.CharField(max_length=100)
     priority = models.CharField(max_length=1, choices=PRIORITY_OPTIONS, default=LOW)
-    
     

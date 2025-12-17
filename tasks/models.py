@@ -1,6 +1,5 @@
 from django.db import models
 
-# Create your models here.
 
 class Employee(models.Model):
     name = models.CharField(max_length=100)
@@ -11,10 +10,20 @@ class Employee(models.Model):
 
 class Project(models.Model):
     name = models.CharField(max_length=100)
+    description = models.TextField(blank=True,null=True)
     start_date = models.DateField()
+    
+    def __str__(self):
+        return self.name
+    
 
 class Task(models.Model):
-    Project = models.ForeignKey(Project, on_delete=models.CASCADE, default=1)
+    STATUS_CHOICES = [
+        ("PENDING", "Pending"),
+        ("IN_PROGRESS", "In Progress"),
+        ("COMPLETED", "Completed"),
+    ]
+    project = models.ForeignKey(Project, on_delete=models.CASCADE, default=1)
     assigned_to = models.ManyToManyField(Employee, related_name="Tasks")
     
     title = models.CharField(max_length=250)
@@ -22,8 +31,12 @@ class Task(models.Model):
     description =models.TextField()
     due_date = models.DateField()
     is_completed = models.BooleanField(default=False)
+    status = models.CharField(max_length=15, choices=STATUS_CHOICES, default="PENDING")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    
+    def __str__(self):
+        return self.title
     
 
 class TaskDetail(models.Model):
@@ -39,9 +52,13 @@ class TaskDetail(models.Model):
     task = models.OneToOneField(
         Task, 
         on_delete=models.CASCADE,
-        related_name = "Details"
+        related_name = "Details",   
         )
     
     assigned_to = models.CharField(max_length=100)
     priority = models.CharField(max_length=1, choices=PRIORITY_OPTIONS, default=LOW)
+    notes = models.TextField(blank=True, null=True)
+    
+    def __str__(self):
+        return f"Details for task {self.task.title}"
     

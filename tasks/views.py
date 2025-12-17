@@ -31,21 +31,15 @@ def create_task(request):
             
             return render(request,"task_form.html",{"form":form, "message":"task added successfully"})
             
-            '''for django form data'''
-            # data = form.cleaned_data
-            # title = data.get("title")
-            # description = data.get("description")
-            # due_date = data.get("due_date")
-            # assigned_to = data.get("assigned_to")
-            
-            # task = Task.objects.create(title=title, description=description, due_date=due_date)
-            
-            # # assign employee to task
-            # for emp_id in assigned_to:
-            #     employee = Employee.objects.get(id = emp_id)
-            #     task.assigned_to.add(employee)
-            
-            return HttpResponse("Task Added successfully")
             
     context = {"form":form}
     return render(request, "task_form.html",context)
+
+def view_task(request):
+    # retrive all data from task app
+    tasks = Task.objects.all()
+    
+    # retrive a specific task
+    task_3 = Task.objects.get(id=1)
+    
+    return render(request, "show_task.html",{"tasks":tasks, "task3":task_3})

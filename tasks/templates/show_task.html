@@ -7,15 +7,9 @@
   </head>
   <body>
     <div>
-      <ul>
-        {% for task in tasks%}
-            <li>{{task.status}}</li>
+        {% for task in tasks %}
+            <li>{{task.assigned_to}}</li>
         {% endfor %}
-
-      </ul>
-    </div>
-    <div class="">
-        {{task3}}
     </div>
   </body>
 </html>

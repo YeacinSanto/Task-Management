@@ -7,9 +7,20 @@
   </head>
   <body>
     <div>
-        {% for task in tasks %}
-            <li>{{task.assigned_to}}</li>
-        {% endfor %}
+        <!-- {% for task in tasks %}
+            <li>{{task}}</li>
+        {% endfor %} -->
+        <ul>
+          {% for project in tasks %}
+            <li>
+              <p>{{project.name}}</p>
+              {% for task in project.task_set.all %}
+                <span>{{task.title}}</span>
+              {% endfor %}
+              
+            </li>
+          {% endfor %}
+        </ul>
     </div>
   </body>
 </html>
